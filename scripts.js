@@ -127,17 +127,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterBoards() {
         const query = searchBox.value.trim().toLowerCase();
+        if (!query) return;
+
         let found = false;
 
-        document.querySelectorAll('.bingoBoard').forEach(board => {
-            const boardNumber = board.querySelector('.bingoBoardNumber').textContent.toLowerCase();
-            if (boardNumber.includes(query)) {
-                board.style.display = 'block';
-                found = true;
-            } else {
-                board.style.display = 'none';
+        // Buscar a través de todas las páginas
+        for (let page = 1; page <= totalPages; page++) {
+            const startBoard = (page - 1) * boardsPerPage + 1;
+            const endBoard = Math.min(startBoard + boardsPerPage - 1, totalBoards);
+
+            for (let i = startBoard; i <= endBoard; i++) {
+                if (i.toString().includes(query)) {
+                    changePage(page);
+                    setTimeout(() => {
+                        const board = document.querySelector(`.bingoBoard[data-board-number="${i}"]`);
+                        if (board) {
+                            board.scrollIntoView({ behavior: 'smooth' });
+                            board.classList.add('highlighted-permanent');
+                            setTimeout(() => {
+                                board.classList.remove('highlighted-permanent');
+                            }, 3000);
+                        }
+                    }, 500);
+                    found = true;
+                    break;
+                }
             }
-        });
+
+            if (found) break;
+        }
 
         if (!found) {
             alert('No se encontró el cartón.');
