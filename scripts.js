@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPagesSpan = document.getElementById('totalPages');
 
     const boardsPerPage = 9;
-    const totalBoards = 2600;
+    const totalBoards = 50000;
 
     let generatedNumbers = [];
     let playerNames = JSON.parse(localStorage.getItem('playerNames')) || {};
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createBingoBoards(currentPage);
 
+    // Evento para botón de búsqueda
     searchButton.addEventListener('click', () => {
         const query = searchBox.value.trim().toLowerCase();
         foundCardNumber = null;
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Evento para botón de impresión
     printButton.addEventListener('click', async () => {
         if (foundCardNumber) {
             const board = document.querySelector(`.bingoBoard[data-board-number='${foundCardNumber}']`);
@@ -58,6 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor, busca un cartón antes de intentar descargar.');
         }
     });
+
+    // Eventos para paginación
+    prevPageBtn.addEventListener('click', () => changePage(currentPage - 1));
+    nextPageBtn.addEventListener('click', () => changePage(currentPage + 1));
 
     async function downloadCanvasImage(board, boardNumber) {
         const canvas = await html2canvas(board, { backgroundColor: null });
@@ -152,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (cellNumber === '') {
                 cell.classList.add('free');
-                cell.style.backgroundImage = "url('free2.png')"; // Cambia 'free.png' por la ruta de tu imagen
+                cell.style.backgroundImage = "url('free.png')"; // Cambia 'free.png' por la ruta de tu imagen
                 cell.style.backgroundSize = 'cover';
                 cell.style.backgroundPosition = 'center';
             }
