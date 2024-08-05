@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPagesSpan = document.getElementById('totalPages');
 
     const boardsPerPage = 9;
-    const totalBoards = 50000;
+    const totalBoards = 2600;
 
     let generatedNumbers = [];
     let playerNames = JSON.parse(localStorage.getItem('playerNames')) || {};
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (cellNumber === '') {
                 cell.classList.add('free');
-                cell.style.backgroundImage = "url('free.png')"; // Cambia 'free.png' por la ruta de tu imagen
+                cell.style.backgroundImage = "url('free2.png')"; // Cambia 'free.png' por la ruta de tu imagen
                 cell.style.backgroundSize = 'cover';
                 cell.style.backgroundPosition = 'center';
             }
