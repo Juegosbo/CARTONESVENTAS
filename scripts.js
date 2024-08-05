@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchButton.addEventListener('click', filterBoards);
     prevPageBtn.addEventListener('click', () => changePage(currentPage - 1));
     nextPageBtn.addEventListener('click', () => changePage(currentPage + 1));
-    printButton.addEventListener('click', printBoards);
+    printButton.addEventListener('click', downloadBoardImages);
 
     function createBingoBoards(page) {
         bingoBoardsContainer.innerHTML = '';
@@ -126,11 +126,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function filterBoards() {
-        // Lógica para buscar cartones
+        const query = searchBox.value.trim().toLowerCase();
+        let found = false;
+
+        document.querySelectorAll('.bingoBoard').forEach(board => {
+            const boardNumber = board.querySelector('.bingoBoardNumber').textContent.toLowerCase();
+            if (boardNumber.includes(query)) {
+                board.style.display = 'block';
+                found = true;
+            } else {
+                board.style.display = 'none';
+            }
+        });
+
+        if (!found) {
+            alert('No se encontró el cartón.');
+        }
     }
 
-    function printBoards() {
-        window.print(); // Imprime la página actual
+    async function downloadBoardImages() {
+        const boards = document.querySelectorAll('.bingoBoard');
+
+        for (let i = 0; i < boards.length; i++) {
+            const board = boards[i];
+            const boardNumberElement = board.querySelector('.bingoBoardNumber');
+            const boardNumber = boardNumberElement.textContent.replace(/\D/g, ''); // Extraer el número del cartón
+
+            await html2canvas(board).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL();
+                link.download = `carton_${boardNumber}.png`;
+                link.click();
+            });
+        }
     }
 
     function loadState() {
