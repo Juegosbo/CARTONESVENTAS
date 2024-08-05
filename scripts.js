@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cellNumber = hasFreeCell && index === 2 ? '' : num;
             if (hasFreeCell && index === 2) {
                 cell.classList.add('free'); // Añadir la clase 'free' para celdas de 'FREE'
-                cell.style.backgroundImage = "url('ruta-de-tu-imagen.png')"; // Cambia 'ruta-de-tu-imagen.png' por la ruta de tu imagen
+                cell.style.backgroundImage = "url('free2.png')"; // Cambia 'ruta-de-tu-imagen.png' por la ruta de tu imagen
             }
             cell.textContent = cellNumber;
             cell.dataset.number = cellNumber;
