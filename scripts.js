@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const bingoBoardsContainer = document.getElementById('bingoBoardsContainer');
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
+    const printButton = document.getElementById('printButton');
     const prevPageBtn = document.getElementById('prevPage');
     const nextPageBtn = document.getElementById('nextPage');
     const currentPageSpan = document.getElementById('currentPage');
     const totalPagesSpan = document.getElementById('totalPages');
-    const printButton = document.getElementById('printButton');
 
     const boardsPerPage = 9;
     const totalBoards = 2600;
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let generatedNumbers = [];
     let playerNames = JSON.parse(localStorage.getItem('playerNames')) || {};
     let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
+    let foundCardNumber = null;
 
     // Calcular páginas totales
     let totalPages = Math.ceil(totalBoards / boardsPerPage);
@@ -24,43 +25,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createBingoBoards(currentPage);
 
-    searchButton.addEventListener('click', filterBoards);
-    prevPageBtn.addEventListener('click', () => changePage(currentPage - 1));
-    nextPageBtn.addEventListener('click', () => changePage(currentPage + 1));
-    printButton.addEventListener('click', async () => {
-        const boards = document.querySelectorAll('.bingoBoard');
+    searchButton.addEventListener('click', () => {
+        const query = searchBox.value.trim().toLowerCase();
+        foundCardNumber = null;
 
-        // Función para descargar una imagen del cartón
-        const downloadCanvasImage = async (board, boardNumber) => {
-            const canvas = await html2canvas(board, { backgroundColor: null });
-            const imgData = canvas.toDataURL('image/png');
+        for (let page = 1; page <= totalPages; page++) {
+            const startBoard = (page - 1) * boardsPerPage + 1;
+            const endBoard = Math.min(startBoard + boardsPerPage - 1, totalBoards);
 
-            const link = document.createElement('a');
-            link.href = imgData;
-            link.download = `bingo_carton_${boardNumber}.png`;
-            link.style.display = 'none';
-
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        };
-
-        // Evitar descargas duplicadas
-        const uniqueBoards = new Set();
-
-        for (let i = 0; i < boards.length; i++) {
-            const board = boards[i];
-            const boardNumberElement = board.querySelector('.bingoBoardNumber');
-
-            if (boardNumberElement && !board.closest('#masterBoardContainer')) {
-                const boardNumber = boardNumberElement.textContent.replace(/\D/g, ''); // Extraer el número del cartón
-                if (!uniqueBoards.has(boardNumber)) {
-                    uniqueBoards.add(boardNumber);
-                    await downloadCanvasImage(board, boardNumber);
+            for (let i = startBoard; i <= endBoard; i++) {
+                const playerName = playerNames[i] ? playerNames[i].toLowerCase() : '';
+                if (i.toString().includes(query) || playerName.includes(query)) {
+                    foundCardNumber = i;
+                    changePage(page);
+                    return;
                 }
             }
         }
+
+        if (!foundCardNumber) {
+            alert('No se encontró el cartón.');
+        }
     });
+
+    printButton.addEventListener('click', async () => {
+        if (foundCardNumber) {
+            const board = document.querySelector(`.bingoBoard[data-board-number='${foundCardNumber}']`);
+            if (board) {
+                await downloadCanvasImage(board, foundCardNumber);
+            }
+        } else {
+            alert('Por favor, busca un cartón antes de intentar descargar.');
+        }
+    });
+
+    async function downloadCanvasImage(board, boardNumber) {
+        const canvas = await html2canvas(board, { backgroundColor: null });
+        const imgData = canvas.toDataURL('image/png');
+
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = `bingo_carton_${boardNumber}.png`;
+        link.style.display = 'none';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
     function createBingoBoards(page) {
         bingoBoardsContainer.innerHTML = '';
@@ -136,25 +147,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const cell = document.createElement('div');
             cell.classList.add('bingoCell');
             const cellNumber = hasFreeCell && index === 2 ? '' : num;
-            if (hasFreeCell && index === 2) {
-                cell.classList.add('free'); // Añadir la clase 'free' para celdas de 'FREE'
-                cell.style.backgroundImage = "url('free2.png')"; // Cambia 'ruta-de-tu-imagen.png' por la ruta de tu imagen
-            }
             cell.textContent = cellNumber;
             cell.dataset.number = cellNumber;
 
-            if (generatedNumbers.includes(Number(cellNumber))) {
+            if (cellNumber === '') {
+                cell.classList.add('free');
+                cell.style.backgroundImage = "url('free2.png')"; // Cambia 'free.png' por la ruta de tu imagen
+                cell.style.backgroundSize = 'cover';
+                cell.style.backgroundPosition = 'center';
+            }
+
+            if (cellNumber === '' || generatedNumbers.includes(Number(cellNumber))) {
                 cell.classList.add('marked');
             }
             columnDiv.appendChild(cell);
         });
 
         return columnDiv;
-    }
-
-    function seedRandom(seed) {
-        var x = Math.sin(seed) * 10000;
-        return x - Math.floor(x);
     }
 
     function getSeededRandomNumbers(min, max, count, seed) {
@@ -168,31 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return numbers;
     }
 
-    function filterBoards() {
-        const query = searchBox.value.trim().toLowerCase();
-        let found = false;
-
-        for (let page = 1; page <= totalPages; page++) {
-            const startBoard = (page - 1) * boardsPerPage + 1;
-            const endBoard = Math.min(startBoard + boardsPerPage - 1, totalBoards);
-
-            for (let i = startBoard; i <= endBoard; i++) {
-                const playerName = playerNames[i] ? playerNames[i].toLowerCase() : '';
-                if (i.toString().includes(query) || playerName.includes(query)) {
-                    found = true;
-                    changePage(page);
-                    break;
-                }
-            }
-
-            if (found) {
-                break;
-            }
-        }
-
-        if (!found) {
-            alert('No se encontró el cartón.');
-        }
+    function seedRandom(seed) {
+        var x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
     }
 
     function changePage(newPage) {
