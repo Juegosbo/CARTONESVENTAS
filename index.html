@@ -2,20 +2,23 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Juego de Bingo</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
+        <header>
+            <div class="title-image-container">
+                <img src="titulo.png" alt="Título del Juego de Bingo" class="title-image">
+            </div>
+        </header>
         <section id="controls">
             <div class="search-container">
                 <input type="text" id="searchBox" placeholder="Buscar cartón por número">
                 <button id="searchButton">Buscar Cartón</button>
             </div>
-            <button id="printButton">Imprimir</button>
         </section>
         <section id="bingo">
             <div id="bingoBoardsContainer"></div>
@@ -25,6 +28,7 @@
                 <button id="nextPage">Siguiente</button>
             </div>
         </section>
+        <button id="printButton">DESCARGAR CARTONES</button>
     </div>
     <script src="scripts.js"></script>
 </body>
