@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadState();  // Cargar el estado guardado
 
-    createMasterBoard();
     createBingoBoards(currentPage);
 
     searchButton.addEventListener('click', filterBoards);
@@ -62,102 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
-    function createMasterBoard() {
-        masterBoardContainer.innerHTML = '';
-        const board = document.createElement('div');
-        board.classList.add('bingoBoard');
-
-        const header = document.createElement('div');
-        header.classList.add('bingoHeader');
-        ['B', 'I', 'N', 'G', 'O'].forEach(letter => {
-            const cell = document.createElement('div');
-            cell.textContent = letter;
-            header.appendChild(cell);
-        });
-        board.appendChild(header);
-
-        const columns = document.createElement('div');
-        columns.classList.add('bingoColumns');
-        columns.style.display = 'grid';
-        columns.style.gridTemplateColumns = 'repeat(5, 1fr)';
-        columns.style.gap = '5px';
-
-        const bColumn = createFixedBingoColumn(1, 15);
-        const iColumn = createFixedBingoColumn(16, 30);
-        const nColumn = createFixedBingoColumn(31, 45);
-        const gColumn = createFixedBingoColumn(46, 60);
-        const oColumn = createFixedBingoColumn(61, 75);
-
-        columns.appendChild(bColumn);
-        columns.appendChild(iColumn);
-        columns.appendChild(nColumn);
-        columns.appendChild(gColumn);
-        columns.appendChild(oColumn);
-
-        board.appendChild(columns);
-        masterBoardContainer.appendChild(board);
-
-        // Marcar números previamente generados
-        generatedNumbers.forEach(number => {
-            const cell = board.querySelector(`[data-number="${number}"]`);
-            if (cell) {
-                cell.classList.add('master-marked');
-            }
-        });
-    }
-
-    function createFixedBingoColumn(min, max) {
-        const column = document.createElement('div');
-        column.classList.add('bingoColumn');
-        for (let i = min; i <= max; i++) {
-            const cell = document.createElement('div');
-            cell.classList.add('bingoCell');
-            cell.textContent = i;
-            cell.dataset.number = i;
-            cell.addEventListener('click', () => toggleMarkNumber(i));
-            column.appendChild(cell);
-        }
-        return column;
-    }
-
-    function toggleMarkNumber(number) {
-        const index = generatedNumbers.indexOf(number);
-        if (index > -1) {
-            generatedNumbers.splice(index, 1);
-        } else {
-            generatedNumbers.push(number);
-        }
-        saveState();
-
-        document.querySelectorAll('#masterBoardContainer .bingoCell').forEach(cell => {
-            if (parseInt(cell.dataset.number) === number) {
-                cell.classList.toggle('master-marked');
-            }
-        });
-
-        document.querySelectorAll('.bingoBoard:not(#masterBoardContainer) .bingoCell').forEach(cell => {
-            if (parseInt(cell.dataset.number) === number) {
-                cell.classList.toggle('marked');
-            }
-        });
-    }
-
-    function seedRandom(seed) {
-        var x = Math.sin(seed) * 10000;
-        return x - Math.floor(x);
-    }
-
-    function getSeededRandomNumbers(min, max, count, seed) {
-        const numbers = [];
-        while (numbers.length < count) {
-            const num = Math.floor(seedRandom(seed++) * (max - min + 1)) + min;
-            if (!numbers.includes(num)) {
-                numbers.push(num);
-            }
-        }
-        return numbers;
-    }
 
     function createBingoBoards(page) {
         bingoBoardsContainer.innerHTML = '';
@@ -249,29 +152,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return columnDiv;
     }
 
-    function clearMarks() {
-        document.querySelectorAll('.bingoBoard:not(#masterBoardContainer) .bingoCell').forEach(cell => {
-            cell.classList.remove('marked', 'figure-marked');
-        });
-
-        document.querySelectorAll('#masterBoardContainer .bingoCell').forEach(cell => {
-            cell.classList.remove('master-marked');
-        });
-
-        generatedNumbers = [];
-        saveState();
+    function seedRandom(seed) {
+        var x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
     }
 
-    function saveState() {
-        localStorage.setItem('generatedNumbers', JSON.stringify(generatedNumbers));
-        localStorage.setItem('playerNames', JSON.stringify(playerNames));
-        localStorage.setItem('currentPage', currentPage.toString());
-    }
-
-    function loadState() {
-        generatedNumbers = JSON.parse(localStorage.getItem('generatedNumbers')) || [];
-        playerNames = JSON.parse(localStorage.getItem('playerNames')) || {};
-        currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
+    function getSeededRandomNumbers(min, max, count, seed) {
+        const numbers = [];
+        while (numbers.length < count) {
+            const num = Math.floor(seedRandom(seed++) * (max - min + 1)) + min;
+            if (!numbers.includes(num)) {
+                numbers.push(num);
+            }
+        }
+        return numbers;
     }
 
     function filterBoards() {
@@ -309,6 +203,17 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPageSpan.textContent = currentPage;
     }
 
-    createMasterBoard();
+    function saveState() {
+        localStorage.setItem('generatedNumbers', JSON.stringify(generatedNumbers));
+        localStorage.setItem('playerNames', JSON.stringify(playerNames));
+        localStorage.setItem('currentPage', currentPage.toString());
+    }
+
+    function loadState() {
+        generatedNumbers = JSON.parse(localStorage.getItem('generatedNumbers')) || [];
+        playerNames = JSON.parse(localStorage.getItem('playerNames')) || {};
+        currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
+    }
+
     createBingoBoards(currentPage);
 });
