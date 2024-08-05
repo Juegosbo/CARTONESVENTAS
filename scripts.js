@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const printButton = document.getElementById('printButton');
 
     const boardsPerPage = 9;
-    const totalBoards = 50000;
+    const totalBoards = 2600;
     let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 
     // Calcular páginas totales
