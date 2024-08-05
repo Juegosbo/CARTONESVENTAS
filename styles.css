@@ -65,12 +65,29 @@ header {
     gap: 10px;
 }
 
+.boardNumberContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e7c702; /* Fondo actual */
+    padding: 10px;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra ligera */
+    margin-bottom: 10px; /* Espacio entre el número de cartón y el nombre */
+}
+.playerName {
+    background-color: #e7c702; /* Fondo para el nombre del jugador */
+    padding: 5px; /* Agrega relleno para separar el texto del borde */
+    border-radius: 4px; /* Bordes redondeados opcionales */
+}
+
 .bingoBoard {
     border: 2px solid #D80602;
     padding: 10px;
     border-radius: 8px;
     background-color: #fff;
 }
+
 
 .bingoHeader {
     display: grid;
