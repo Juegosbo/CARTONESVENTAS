@@ -1,0 +1,85 @@
+/* Mantén solo los estilos necesarios */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#searchBox {
+    padding: 10px;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#searchButton, #printButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#searchButton:hover, #printButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+#bingo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#bingoBoardsContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.bingoBoard {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 8px;
+}
+
+#paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
