@@ -120,7 +120,11 @@ button:hover {
 }
 
 .bingoCell.free {
-    background-color: #cccccc; /* Cambia el color de fondo para las celdas 'FREE' */
+    background-image: url('free.png'); /* Ruta de la imagen */
+    background-size: cover;
+    background-position: center;
+    color: transparent; /* Para ocultar el texto 'FREE' */
+    text-indent: -9999px; /* Para asegurar que el texto no se vea ni ocupe espacio */
 }
 
 .bingoCell.marked {
