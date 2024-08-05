@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const board = document.createElement('div');
             board.classList.add('bingoBoard');
             board.dataset.boardNumber = i;
-
+            
             const boardNumberContainer = document.createElement('div');
             boardNumberContainer.classList.add('boardNumberContainer');
             
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const playerName = document.createElement('div');
             playerName.classList.add('playerName');
-            playerName.textContent = playerNames[i] || 'Sin nombre';
+            playerName.textContent = playerNames[i] || 'EL PREMIO MAYOR';
             
             boardNumberContainer.appendChild(boardNumber);
             boardNumberContainer.appendChild(playerName);
