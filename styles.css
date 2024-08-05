@@ -1,4 +1,3 @@
-/* Mantén solo los estilos necesarios */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -76,10 +75,99 @@ body {
     border-radius: 8px;
 }
 
+.bingoHeader {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    text-align: center;
+    font-weight: bold;
+    font-size: 32px;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
+    background-color: #ffc000; /* Fondo */
+    color: #000; /* Color del texto */
+    border-radius: 8px 8px 0 0;
+    text-transform: uppercase;
+}
+
+.bingoHeader div {
+    color: #000;
+}
+
+.bingoColumns {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.bingoCell {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    background-color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    color: #000 !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.bingoCell.marked {
+    background-color: #ffc000;
+    color: white;
+}
+
+.boardNumberContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffc000;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.bingoBoardNumber {
+    font-size: 20px;
+    color: #000;
+    font-family: "Arial Black", Arial, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.bingoBoard:hover {
+    transform: scale(1.02);
+}
+
 #paginationControls {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     margin: 20px 0;
+}
+
+.bingoBoard.small {
+    width: 120px;
+    height: 120px;
+    font-size: 8px;
+}
+
+.bingoCell.free {
+    background-image: url('free2.png'); /* Ruta de la imagen */
+    background-size: cover;
+    background-position: center;
+    color: transparent;
+    text-indent: -9999px;
 }
