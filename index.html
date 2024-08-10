@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>CARTONES BINGO</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -14,21 +13,9 @@
                 <img src="titulo.png" alt="Título del Juego de Bingo" class="title-image">
             </div>
         </header>
-        <section id="controls">
-            <div class="search-container">
-                <input type="text" id="searchBox" placeholder="Buscar cartón por número">
-                <button id="searchButton">Buscar Cartón</button>
-            </div>
-        </section>
         <section id="bingo">
             <div id="bingoBoardsContainer"></div>
-            <div id="paginationControls">
-                <button id="prevPage">Anterior</button>
-                <span id="currentPage">1</span> / <span id="totalPages"></span>
-                <button id="nextPage">Siguiente</button>
-            </div>
         </section>
-        <button id="printButton">DESCARGAR CARTONES</button>
     </div>
     <script src="scripts.js"></script>
 </body>
