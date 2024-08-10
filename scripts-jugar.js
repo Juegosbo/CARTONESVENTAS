@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
 
+    let drawingCanvas, drawingCtx; // Lienzo adicional para pintar
+
     let currentTool = 'pintar'; // Herramienta actual, por defecto 'pintar'
 
     // Configurar el lápiz para pintar en rojo
@@ -17,12 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Eventos para cambiar entre pintar y borrar
     pintarButton.addEventListener('click', () => {
         currentTool = 'pintar';
-        ctx.strokeStyle = "red";
+        drawingCtx.globalCompositeOperation = "source-over"; // Pintar normalmente
+        drawingCtx.strokeStyle = "red";
     });
 
     borrarButton.addEventListener('click', () => {
         currentTool = 'borrar';
-        ctx.strokeStyle = "white"; // Cambiar el color a blanco para borrar
+        drawingCtx.globalCompositeOperation = "destination-out"; // Borrar solo lo que se pintó
+        drawingCtx.strokeStyle = "rgba(0,0,0,1)"; // Borrar lo que se pintó
     });
 
     // Eventos para dibujar en el lienzo en dispositivos móviles
@@ -35,22 +39,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function endPosition() {
         painting = false;
-        ctx.beginPath();
+        drawingCtx.beginPath();
     }
 
     function draw(e) {
         if (!painting) return;
 
-        ctx.lineCap = "round";
+        drawingCtx.lineCap = "round";
 
         const touch = e.touches ? e.touches[0] : null;
         const mouseX = touch ? touch.clientX : e.clientX;
         const mouseY = touch ? touch.clientY : e.clientY;
 
-        ctx.lineTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
+        drawingCtx.lineTo(mouseX - drawingCanvas.offsetLeft, mouseY - drawingCanvas.offsetTop);
+        drawingCtx.stroke();
+        drawingCtx.beginPath();
+        drawingCtx.moveTo(mouseX - drawingCanvas.offsetLeft, mouseY - drawingCanvas.offsetTop);
     }
 
     canvas.addEventListener('touchstart', startPosition);
@@ -90,43 +94,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = new Image();
             img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${i}.png`;
             img.alt = `Cartón Nº ${i}`;
-            img.classList.add('bingoBoardImage');
             img.onload = function () {
-                const canvasClone = document.createElement('canvas');
-                const ctxClone = canvasClone.getContext('2d');
-                canvasClone.width = img.width;
-                canvasClone.height = img.height;
-                ctxClone.drawImage(img, 0, 0);
-                bingoBoardsContainer.appendChild(canvasClone);
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
+                ctx.drawImage(img, 0, 0);
+
+                // Crear un segundo lienzo para pintar encima de la imagen
+                drawingCanvas = document.createElement('canvas');
+                drawingCanvas.width = img.width;
+                drawingCanvas.height = img.height;
+                drawingCtx = drawingCanvas.getContext('2d');
+
+                bingoBoardsContainer.appendChild(drawingCanvas);
 
                 // Añadir eventos de dibujo al nuevo canvas
-                let painting = false;
+                drawingCanvas.addEventListener('touchstart', startPosition);
+                drawingCanvas.addEventListener('touchend', endPosition);
+                drawingCanvas.addEventListener('touchmove', draw);
 
-                canvasClone.addEventListener('touchstart', startPosition);
-                canvasClone.addEventListener('touchend', endPosition);
-                canvasClone.addEventListener('touchmove', (e) => drawOnCanvas(e, ctxClone));
-
-                canvasClone.addEventListener('mousedown', startPosition);
-                canvasClone.addEventListener('mouseup', endPosition);
-                canvasClone.addEventListener('mousemove', (e) => drawOnCanvas(e, ctxClone));
+                drawingCanvas.addEventListener('mousedown', startPosition);
+                drawingCanvas.addEventListener('mouseup', endPosition);
+                drawingCanvas.addEventListener('mousemove', draw);
             }
         }
-    }
-
-    function drawOnCanvas(e, context) {
-        if (!painting) return;
-
-        const touch = e.touches ? e.touches[0] : null;
-        const mouseX = touch ? touch.clientX : e.clientX;
-        const mouseY = touch ? touch.clientY : e.clientY;
-
-        context.lineCap = "round";
-        context.lineWidth = ctx.lineWidth;
-        context.strokeStyle = ctx.strokeStyle;
-
-        context.lineTo(mouseX - e.target.offsetLeft, mouseY - e.target.offsetTop);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(mouseX - e.target.offsetLeft, mouseY - e.target.offsetTop);
     }
 });
