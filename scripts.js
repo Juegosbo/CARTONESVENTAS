@@ -22,15 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadBingoBoard(boardNumber) {
         bingoBoardsContainer.innerHTML = ''; // Limpiar cualquier contenido previo
+
+        // Crear la imagen del cartón
         const img = document.createElement('img');
         img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${boardNumber}.png`; // Ruta de la imagen
         img.alt = `Cartón Nº ${boardNumber}`;
         img.classList.add('bingoBoardImage');
 
-        // Añadir evento de click para descargar la imagen
-        img.addEventListener('click', () => downloadImage(img.src, `bingo_carton_${boardNumber}.png`));
+        // Crear el botón de descarga
+        const downloadButton = document.createElement('button');
+        downloadButton.textContent = 'Descargar Cartón';
+        downloadButton.classList.add('downloadButton');
+        downloadButton.addEventListener('click', () => downloadImage(img.src, `bingo_carton_${boardNumber}.png`));
 
+        // Agregar la imagen y el botón al contenedor
         bingoBoardsContainer.appendChild(img);
+        bingoBoardsContainer.appendChild(downloadButton);
     }
 
     function downloadImage(url, filename) {
