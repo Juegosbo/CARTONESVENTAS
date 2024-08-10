@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const bingoBoardsContainer = document.getElementById('bingoBoardsContainer');
+    const searchBox = document.getElementById('searchBox');
+    const searchButton = document.getElementById('searchButton');
     const pintarButton = document.getElementById('pintarButton');
     const borrarButton = document.getElementById('borrarButton');
     
@@ -56,5 +59,42 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (currentTool === 'borrar' && element.style.backgroundColor === strokeColor) {
             element.remove(); // Eliminar solo las marcas de resaltador
         }
+    }
+
+    searchButton.addEventListener('click', () => {
+        const boardNumber = parseInt(searchBox.value.trim());
+        if (!isNaN(boardNumber) && boardNumber > 0 && boardNumber <= 2600) {
+            loadBingoBoard(boardNumber);
+        } else {
+            alert('Por favor, ingrese un número de cartón válido.');
+        }
+    });
+
+    function loadBingoBoard(boardNumber) {
+        console.log(`Buscando cartón ${boardNumber}`); // Para depuración
+        bingoBoardsContainer.innerHTML = ''; // Limpiar cualquier contenido previo
+
+        const img = new Image();
+        img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${boardNumber}.png`;
+        img.alt = `Cartón Nº ${boardNumber}`;
+
+        img.onload = function () {
+            console.log(`Imagen ${img.src} cargada correctamente`); // Depuración
+
+            const imgElement = document.createElement('img');
+            imgElement.src = img.src;
+            imgElement.alt = img.alt;
+            imgElement.style.maxWidth = '100%';
+            imgElement.style.height = 'auto';
+
+            bingoBoardsContainer.appendChild(imgElement);
+
+            console.log(`Cartón ${boardNumber} mostrado en el lienzo`); // Depuración
+        };
+
+        img.onerror = function () {
+            console.error(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
+            alert(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
+        };
     }
 });
