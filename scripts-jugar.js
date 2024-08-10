@@ -1,30 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const bingoBoardsContainer = document.getElementById('bingoBoardsContainer');
-    const searchBox = document.getElementById('searchBox');
-    const searchButton = document.getElementById('searchButton');
     const pintarButton = document.getElementById('pintarButton');
     const borrarButton = document.getElementById('borrarButton');
-    const canvas = document.getElementById('drawingCanvas');
-    const ctx = canvas.getContext('2d');
+    
+    let painting = false;
+    let currentTool = 'pintar';
+    let strokeColor = "rgba(255, 0, 0, 0.3)"; // Color del resaltador (rojo con transparencia)
+    let lineWidth = 15; // Ancho del resaltador
 
-    let painting = false; // Variable para controlar si se está pintando
-
-    // Configuración inicial del lápiz
-    ctx.lineCap = "round";
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = "red";
-    let previousOperation = ctx.globalCompositeOperation; // Guardar la operación de composición original
-
-    // Eventos para cambiar entre pintar y borrar
+    // Configuración del resaltador y borrar
     pintarButton.addEventListener('click', () => {
-        ctx.globalCompositeOperation = "source-over"; // Pintar normalmente
-        ctx.strokeStyle = "red";
+        currentTool = 'pintar';
     });
 
     borrarButton.addEventListener('click', () => {
-        ctx.globalCompositeOperation = "destination-out"; // Borrar solo las marcas de pintura
-        ctx.strokeStyle = "rgba(0,0,0,1)"; // Utilizar un color sólido para borrar
+        currentTool = 'borrar';
     });
+
+    // Eventos para pintar o borrar sobre cualquier parte de la página
+    document.addEventListener('mousedown', startPosition);
+    document.addEventListener('mouseup', endPosition);
+    document.addEventListener('mousemove', draw);
+    document.addEventListener('touchstart', startPosition);
+    document.addEventListener('touchend', endPosition);
+    document.addEventListener('touchmove', draw);
 
     function startPosition(e) {
         painting = true;
@@ -33,67 +31,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function endPosition() {
         painting = false;
-        ctx.beginPath();
     }
 
     function draw(e) {
         if (!painting) return;
 
-        const touch = e.touches ? e.touches[0] : null;
-        const mouseX = touch ? touch.clientX : e.clientX;
-        const mouseY = touch ? touch.clientY : e.clientY;
+        const touch = e.touches ? e.touches[0] : e;
+        const x = touch.clientX;
+        const y = touch.clientY;
 
-        ctx.lineTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
-    }
+        const element = document.elementFromPoint(x, y);
 
-    searchButton.addEventListener('click', () => {
-        const boardNumber = parseInt(searchBox.value.trim());
-        if (!isNaN(boardNumber) && boardNumber > 0 && boardNumber <= 2600) {
-            loadBingoBoard(boardNumber);
-        } else {
-            alert('Por favor, ingrese un número de cartón válido.');
+        if (currentTool === 'pintar') {
+            element.style.position = 'relative';
+            const highlight = document.createElement('div');
+            highlight.style.position = 'absolute';
+            highlight.style.left = `${x - element.getBoundingClientRect().left}px`;
+            highlight.style.top = `${y - element.getBoundingClientRect().top}px`;
+            highlight.style.width = `${lineWidth}px`;
+            highlight.style.height = `${lineWidth}px`;
+            highlight.style.backgroundColor = strokeColor;
+            highlight.style.pointerEvents = 'none'; // No interferir con otros eventos
+            element.appendChild(highlight);
+        } else if (currentTool === 'borrar' && element.style.backgroundColor === strokeColor) {
+            element.remove(); // Eliminar solo las marcas de resaltador
         }
-    });
-
-    function loadBingoBoard(boardNumber) {
-        console.log(`Buscando cartón ${boardNumber}`); // Para depuración
-        bingoBoardsContainer.innerHTML = ''; // Limpiar cualquier contenido previo
-
-        const img = new Image();
-        img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${boardNumber}.png`;
-        img.alt = `Cartón Nº ${boardNumber}`;
-
-        img.onload = function () {
-            console.log(`Imagen ${img.src} cargada correctamente`); // Depuración
-
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
-            ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
-
-            // Restaurar la operación de composición original al cargar la imagen
-            ctx.globalCompositeOperation = previousOperation;
-
-            console.log(`Cartón ${boardNumber} mostrado en el lienzo`); // Depuración
-        };
-
-        img.onerror = function () {
-            console.error(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
-            alert(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
-        };
-
-        bingoBoardsContainer.appendChild(canvas);
     }
-
-    // Añadir eventos de dibujo al canvas
-    canvas.addEventListener('touchstart', startPosition);
-    canvas.addEventListener('touchend', endPosition);
-    canvas.addEventListener('touchmove', draw);
-
-    canvas.addEventListener('mousedown', startPosition);
-    canvas.addEventListener('mouseup', endPosition);
-    canvas.addEventListener('mousemove', draw);
 });
