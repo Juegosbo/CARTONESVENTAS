@@ -4,12 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const pintarButton = document.getElementById('pintarButton');
     const borrarButton = document.getElementById('borrarButton');
-    const totalBoards = 2600;  // Número total de cartones disponibles
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
 
     let painting = false; // Variable para controlar si se está pintando
-    let currentTool = 'pintar'; // Herramienta actual, por defecto 'pintar'
 
     // Configuración inicial del lápiz
     ctx.lineCap = "round";
@@ -18,13 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Eventos para cambiar entre pintar y borrar
     pintarButton.addEventListener('click', () => {
-        currentTool = 'pintar';
         ctx.globalCompositeOperation = "source-over"; // Pintar normalmente
         ctx.strokeStyle = "red";
     });
 
     borrarButton.addEventListener('click', () => {
-        currentTool = 'borrar';
         ctx.globalCompositeOperation = "destination-out"; // Borrar solo las marcas de pintura
         ctx.strokeStyle = "rgba(0,0,0,1)"; // Borrar usando una línea sólida
     });
@@ -53,44 +49,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     searchButton.addEventListener('click', () => {
-        const query = searchBox.value.trim();
-
-        if (query.includes('-')) {
-            const range = query.split('-').map(Number);
-            if (range.length === 2 && range[0] > 0 && range[1] <= totalBoards && range[0] <= range[1]) {
-                loadBingoBoards(range[0], range[1]);
-            } else {
-                alert('Por favor, ingrese un rango de cartones válido.');
-            }
+        const boardNumber = parseInt(searchBox.value.trim());
+        if (!isNaN(boardNumber) && boardNumber > 0 && boardNumber <= 2600) {
+            loadBingoBoard(boardNumber);
         } else {
-            const boardNumber = parseInt(query);
-            if (!isNaN(boardNumber) && boardNumber > 0 && boardNumber <= totalBoards) {
-                loadBingoBoards(boardNumber, boardNumber);
-            } else {
-                alert('Por favor, ingrese un número de cartón válido.');
-            }
+            alert('Por favor, ingrese un número de cartón válido.');
         }
     });
 
-    function loadBingoBoards(startBoard, endBoard) {
+    function loadBingoBoard(boardNumber) {
+        console.log(`Buscando cartón ${boardNumber}`); // Para depuración
         bingoBoardsContainer.innerHTML = ''; // Limpiar cualquier contenido previo
 
-        for (let i = startBoard; i <= endBoard; i++) {
-            const img = new Image();
-            img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${i}.png`;
-            img.alt = `Cartón Nº ${i}`;
-            img.onload = function () {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
-                ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
+        const img = new Image();
+        img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${boardNumber}.png`;
+        img.alt = `Cartón Nº ${boardNumber}`;
 
-                // El lienzo está listo para pintar y borrar sobre la imagen
-            };
-            img.onerror = function () {
-                alert(`Error al cargar el cartón Nº ${i}. Verifica que el archivo existe.`);
-            };
-        }
+        img.onload = function () {
+            console.log(`Imagen ${img.src} cargada correctamente`); // Depuración
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
+            ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
+
+            console.log(`Cartón ${boardNumber} mostrado en el lienzo`); // Depuración
+        };
+
+        img.onerror = function () {
+            console.error(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
+            alert(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
+        };
+
+        bingoBoardsContainer.appendChild(canvas);
     }
 
     // Añadir eventos de dibujo al canvas
