@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.strokeStyle = "red";
         ctx.lineWidth = 3;
 
-        // Eventos para dibujar en el lienzo
+        // Eventos para dibujar en el lienzo en dispositivos móviles
         let painting = false;
 
         function startPosition(e) {
@@ -41,12 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             ctx.lineCap = "round";
 
-            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            const touch = e.touches[0];
+            const mouseX = touch ? touch.clientX : e.clientX;
+            const mouseY = touch ? touch.clientY : e.clientY;
+
+            ctx.lineTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.moveTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
         }
 
+        canvas.addEventListener('touchstart', startPosition);
+        canvas.addEventListener('touchend', endPosition);
+        canvas.addEventListener('touchmove', draw);
+
+        // Para permitir también dibujar con el mouse
         canvas.addEventListener('mousedown', startPosition);
         canvas.addEventListener('mouseup', endPosition);
         canvas.addEventListener('mousemove', draw);
