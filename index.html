@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>CARTONES BINGO</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="container">
@@ -13,6 +14,12 @@
                 <img src="titulo.png" alt="Título del Juego de Bingo" class="title-image">
             </div>
         </header>
+        <section id="controls">
+            <div class="search-container">
+                <input type="number" id="searchBox" placeholder="Buscar cartón por número">
+                <button id="searchButton">Buscar Cartón</button>
+            </div>
+        </section>
         <section id="bingo">
             <div id="bingoBoardsContainer"></div>
         </section>
