@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let painting = false;
     let strokeColor = "rgba(255, 0, 0, 0.3)"; // Color del resaltador (rojo con transparencia)
-    let lineWidth = 15; // Ancho del resaltador
+    let lineWidth = 5; // Ancho del resaltador
 
     // Eventos para pintar sobre el lienzo
     canvas.addEventListener('mousedown', startPosition);
