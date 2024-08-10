@@ -61,7 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
         img.alt = `Cartón Nº ${boardNumber}`;
 
         img.onload = function () {
-            const scaleFactor = 0.10; // Porcentaje de escala (0.8 = 80% del tamaño original)
+            canvas.width = img.width;
+            canvas.height = img.height;
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
             ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
 
