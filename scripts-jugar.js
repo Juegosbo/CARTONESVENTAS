@@ -5,27 +5,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const pintarButton = document.getElementById('pintarButton');
     const borrarButton = document.getElementById('borrarButton');
     const totalBoards = 2600;  // Número total de cartones disponibles
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
 
-    let drawingCanvas, drawingCtx;
-    let currentTool = 'pintar';
-    let painting = false; // Definir la variable painting
+    let painting = false; // Variable para controlar si se está pintando
+    let currentTool = 'pintar'; // Herramienta actual, por defecto 'pintar'
 
-    // Configurar el lápiz para pintar en rojo
-    let strokeColor = "red";
-    let lineWidth = 3;
+    // Configuración inicial del lápiz
+    ctx.lineCap = "round";
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "red";
 
+    // Eventos para cambiar entre pintar y borrar
     pintarButton.addEventListener('click', () => {
         currentTool = 'pintar';
-        drawingCtx.globalCompositeOperation = "source-over"; // Pintar normalmente
-        drawingCtx.strokeStyle = strokeColor;
-        drawingCtx.lineWidth = lineWidth;
+        ctx.globalCompositeOperation = "source-over"; // Pintar normalmente
+        ctx.strokeStyle = "red";
     });
 
     borrarButton.addEventListener('click', () => {
         currentTool = 'borrar';
-        drawingCtx.globalCompositeOperation = "destination-out"; // Borrar solo lo que se pintó
-        drawingCtx.strokeStyle = "rgba(0,0,0,1)"; // Para borrar, se utiliza color sólido
-        drawingCtx.lineWidth = lineWidth;
+        ctx.globalCompositeOperation = "destination-out"; // Borrar solo las marcas de pintura
+        ctx.strokeStyle = "rgba(0,0,0,1)"; // Borrar usando una línea sólida
     });
 
     function startPosition(e) {
@@ -35,22 +36,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function endPosition() {
         painting = false;
-        drawingCtx.beginPath();
+        ctx.beginPath();
     }
 
     function draw(e) {
         if (!painting) return;
 
-        drawingCtx.lineCap = "round";
-
         const touch = e.touches ? e.touches[0] : null;
         const mouseX = touch ? touch.clientX : e.clientX;
         const mouseY = touch ? touch.clientY : e.clientY;
 
-        drawingCtx.lineTo(mouseX - drawingCanvas.offsetLeft, mouseY - drawingCanvas.offsetTop);
-        drawingCtx.stroke();
-        drawingCtx.beginPath();
-        drawingCtx.moveTo(mouseX - drawingCanvas.offsetLeft, mouseY - drawingCanvas.offsetTop);
+        ctx.lineTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(mouseX - canvas.offsetLeft, mouseY - canvas.offsetTop);
     }
 
     searchButton.addEventListener('click', () => {
@@ -81,34 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
             img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${i}.png`;
             img.alt = `Cartón Nº ${i}`;
             img.onload = function () {
-                const canvasWrapper = document.createElement('div');
-                canvasWrapper.classList.add('canvas-wrapper');
-
-                const canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
+                ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
 
-                // Crear un segundo lienzo para pintar encima de la imagen
-                drawingCanvas = document.createElement('canvas');
-                drawingCanvas.width = img.width;
-                drawingCanvas.height = img.height;
-                drawingCtx = drawingCanvas.getContext('2d');
-
-                canvasWrapper.appendChild(canvas);
-                canvasWrapper.appendChild(drawingCanvas);
-                bingoBoardsContainer.appendChild(canvasWrapper);
-
-                // Añadir eventos de dibujo al nuevo canvas
-                drawingCanvas.addEventListener('touchstart', startPosition);
-                drawingCanvas.addEventListener('touchend', endPosition);
-                drawingCanvas.addEventListener('touchmove', draw);
-
-                drawingCanvas.addEventListener('mousedown', startPosition);
-                drawingCanvas.addEventListener('mouseup', endPosition);
-                drawingCanvas.addEventListener('mousemove', draw);
+                // El lienzo está listo para pintar y borrar sobre la imagen
             }
         }
     }
+
+    // Añadir eventos de dibujo al canvas
+    canvas.addEventListener('touchstart', startPosition);
+    canvas.addEventListener('touchend', endPosition);
+    canvas.addEventListener('touchmove', draw);
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', endPosition);
+    canvas.addEventListener('mousemove', draw);
 });
