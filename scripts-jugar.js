@@ -2,12 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const bingoBoardsContainer = document.getElementById('bingoBoardsContainer');
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
-    const canvas = document.createElement('canvas');
+    const pintarButton = document.getElementById('pintarButton');
+    const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
 
     let painting = false;
     let strokeColor = "rgba(255, 0, 0, 0.3)"; // Color del resaltador (rojo con transparencia)
     let lineWidth = 5; // Ancho del resaltador
+
+    pintarButton.addEventListener('click', () => {
+        canvas.style.pointerEvents = 'auto'; // Permitir la interacción para pintar
+    });
 
     // Eventos para pintar sobre el lienzo
     canvas.addEventListener('mousedown', startPosition);
