@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let drawingCanvas, drawingCtx;
     let currentTool = 'pintar';
+    let painting = false; // Definir la variable painting
 
     // Configurar el lápiz para pintar en rojo
     let strokeColor = "red";
