@@ -86,7 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
 
                 // El lienzo está listo para pintar y borrar sobre la imagen
-            }
+            };
+            img.onerror = function () {
+                alert(`Error al cargar el cartón Nº ${i}. Verifica que el archivo existe.`);
+            };
         }
     }
 
