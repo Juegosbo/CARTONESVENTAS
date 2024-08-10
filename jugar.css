@@ -52,11 +52,44 @@ body {
     cursor: pointer;
 }
 
+#bingo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+#options {
+    margin-right: 20px;
+    text-align: left;
+}
+
+#options h3 {
+    margin-bottom: 10px;
+}
+
+#options button {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+}
+
+#options button:hover {
+    background-color: #0056b3;
+}
+
 #bingoBoardsContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    flex-grow: 1;
 }
 
 #drawingCanvas {
