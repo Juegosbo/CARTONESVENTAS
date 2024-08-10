@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             loadBingoBoard(query);
-            startDollarRain(); // Iniciar la lluvia de dólares cuando se carga el cartón
         });
     } else {
         console.error('No se encontraron elementos del DOM necesarios');
@@ -50,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     }
 
-    // Función para iniciar la lluvia de dólares
+    // Función para iniciar la lluvia de dólares de forma continua
     function startDollarRain() {
-        for (let i = 0; i < 20; i++) { // Crear 20 elementos de lluvia
+        setInterval(() => {
             createDollar();
-        }
+        }, 500);  // Crear un nuevo $ cada 500ms (ajustable)
     }
 
     function createDollar() {
@@ -73,4 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dollar.remove();
         }, 6000);
     }
+
+    // Iniciar la lluvia de dólares al cargar la página
+    startDollarRain();
 });
