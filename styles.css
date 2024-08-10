@@ -61,10 +61,22 @@ body {
 .bingoBoardImage {
     max-width: 100%;
     height: auto;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    margin-bottom: 10px;
 }
 
-.bingoBoardImage:hover {
-    transform: scale(1.05);  /* Efecto de agrandamiento al pasar el cursor */
+.downloadButton {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px;
 }
+
+.downloadButton:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
