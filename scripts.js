@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             loadBingoBoard(query);
+            startDollarRain(); // Iniciar la lluvia de dólares cuando se carga el cartón
         });
     } else {
         console.error('No se encontraron elementos del DOM necesarios');
@@ -47,5 +48,29 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    // Función para iniciar la lluvia de dólares
+    function startDollarRain() {
+        for (let i = 0; i < 20; i++) { // Crear 20 elementos de lluvia
+            createDollar();
+        }
+    }
+
+    function createDollar() {
+        const dollar = document.createElement('div');
+        dollar.textContent = '$';
+        dollar.classList.add('dollar');
+
+        // Posicionar el elemento aleatoriamente
+        dollar.style.left = Math.random() * window.innerWidth + 'px';
+        dollar.style.animationDelay = Math.random() * 5 + 's';
+        
+        document.body.appendChild(dollar);
+
+        // Remover el elemento después de la animación
+        setTimeout(() => {
+            dollar.remove();
+        }, 6000);
     }
 });
