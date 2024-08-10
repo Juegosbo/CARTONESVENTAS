@@ -19,14 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTool = 'borrar';
     });
 
-    // Eventos para pintar o borrar sobre cualquier parte de la página
-    document.addEventListener('mousedown', startPosition);
-    document.addEventListener('mouseup', endPosition);
-    document.addEventListener('mousemove', draw);
-    document.addEventListener('touchstart', startPosition);
-    document.addEventListener('touchend', endPosition);
-    document.addEventListener('touchmove', draw);
-
     function startPosition(e) {
         painting = true;
         draw(e);
@@ -46,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const element = document.elementFromPoint(x, y);
 
         if (currentTool === 'pintar') {
-            element.style.position = 'relative';
             const highlight = document.createElement('div');
             highlight.style.position = 'absolute';
             highlight.style.left = `${x - element.getBoundingClientRect().left}px`;
@@ -55,9 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
             highlight.style.height = `${lineWidth}px`;
             highlight.style.backgroundColor = strokeColor;
             highlight.style.pointerEvents = 'none'; // No interferir con otros eventos
+            highlight.classList.add('highlight-mark');
             element.appendChild(highlight);
-        } else if (currentTool === 'borrar' && element.style.backgroundColor === strokeColor) {
-            element.remove(); // Eliminar solo las marcas de resaltador
+        } else if (currentTool === 'borrar') {
+            if (element.classList.contains('highlight-mark')) {
+                element.remove(); // Eliminar solo las marcas de resaltador
+            }
         }
     }
 
@@ -86,10 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
             imgElement.alt = img.alt;
             imgElement.style.maxWidth = '100%';
             imgElement.style.height = 'auto';
+            imgElement.style.position = 'relative'; // Para permitir que los elementos resaltados se posicionen correctamente
 
             bingoBoardsContainer.appendChild(imgElement);
 
-            console.log(`Cartón ${boardNumber} mostrado en el lienzo`); // Depuración
+            console.log(`Cartón ${boardNumber} mostrado en el contenedor`); // Depuración
         };
 
         img.onerror = function () {
@@ -97,4 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
         };
     }
+
+    // Añadir eventos de dibujo al documento
+    document.addEventListener('mousedown', startPosition);
+    document.addEventListener('mouseup', endPosition);
+    document.addEventListener('mousemove', draw);
+    document.addEventListener('touchstart', startPosition);
+    document.addEventListener('touchend', endPosition);
+    document.addEventListener('touchmove', draw);
 });
