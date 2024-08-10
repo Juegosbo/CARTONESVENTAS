@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineCap = "round";
     ctx.lineWidth = 3;
     ctx.strokeStyle = "red";
+    let previousOperation = ctx.globalCompositeOperation; // Guardar la operación de composición original
 
     // Eventos para cambiar entre pintar y borrar
     pintarButton.addEventListener('click', () => {
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     borrarButton.addEventListener('click', () => {
         ctx.globalCompositeOperation = "destination-out"; // Borrar solo las marcas de pintura
-        ctx.strokeStyle = "rgba(0,0,0,1)"; // Borrar usando una línea sólida
+        ctx.strokeStyle = "rgba(0,0,0,1)"; // Utilizar un color sólido para borrar
     });
 
     function startPosition(e) {
@@ -72,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.height = img.height;
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
             ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
+
+            // Restaurar la operación de composición original al cargar la imagen
+            ctx.globalCompositeOperation = previousOperation;
 
             console.log(`Cartón ${boardNumber} mostrado en el lienzo`); // Depuración
         };
