@@ -2,22 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const bingoBoardsContainer = document.getElementById('bingoBoardsContainer');
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
-    const pintarButton = document.getElementById('pintarButton');
-    const borrarButton = document.getElementById('borrarButton');
-    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
     let painting = false;
-    let currentTool = 'pintar';
     let strokeColor = "rgba(255, 0, 0, 0.3)"; // Color del resaltador (rojo con transparencia)
     let lineWidth = 15; // Ancho del resaltador
 
-    // Configuración del resaltador y borrar
-    pintarButton.addEventListener('click', () => {
-        currentTool = 'pintar';
-    });
-
-    borrarButton.addEventListener('click', () => {
-        currentTool = 'borrar';
-    });
+    // Eventos para pintar sobre el lienzo
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', endPosition);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('touchstart', startPosition);
+    canvas.addEventListener('touchend', endPosition);
+    canvas.addEventListener('touchmove', draw);
 
     function startPosition(e) {
         painting = true;
@@ -36,13 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const x = touch.clientX - canvas.offsetLeft;
         const y = touch.clientY - canvas.offsetTop;
 
-        if (currentTool === 'pintar') {
-            ctx.globalCompositeOperation = "source-over";
-            ctx.strokeStyle = strokeColor;
-        } else if (currentTool === 'borrar') {
-            ctx.globalCompositeOperation = "destination-out";
-            ctx.strokeStyle = "rgba(0,0,0,1)";
-        }
+        ctx.lineCap = "round";
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = lineWidth;
 
         ctx.lineTo(x, y);
         ctx.stroke();
@@ -72,9 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo antes de dibujar
             ctx.drawImage(img, 0, 0); // Dibujar la imagen en el lienzo
 
-            canvas.style.position = 'absolute';
-            canvas.style.left = img.getBoundingClientRect().left + 'px';
-            canvas.style.top = img.getBoundingClientRect().top + 'px';
+            canvas.style.position = 'relative';
+            canvas.style.zIndex = '1';
 
             bingoBoardsContainer.appendChild(canvas);
         };
@@ -84,18 +77,4 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`Error al cargar el cartón Nº ${boardNumber}. Verifica que el archivo existe.`);
         };
     }
-
-    // Crear un lienzo para pintar encima de la imagen del cartón
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.style.position = 'absolute';
-    canvas.style.pointerEvents = 'none'; // Permitir que los eventos pasen a través del lienzo a otros elementos
-
-    // Añadir eventos de dibujo al lienzo
-    canvas.addEventListener('mousedown', startPosition);
-    canvas.addEventListener('mouseup', endPosition);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('touchstart', startPosition);
-    canvas.addEventListener('touchend', endPosition);
-    canvas.addEventListener('touchmove', draw);
 });
