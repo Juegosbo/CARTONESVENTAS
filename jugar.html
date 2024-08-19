@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>CARTONES BINGO</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Jugar BINGO - Pintar Cartones</title>
+    <link rel="stylesheet" href="jugar.css">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="title-image-container">
                 <img src="titulo.png" alt="Título del Juego de Bingo" class="title-image">
-                <p>INGRESAR SU NUMERO DE CARTON PARA DESCARGAR</p>
+                <p> BUSCA TU CARTON Y JUEGA MARCANDO LOS NUMEROS </p>
             </div>
         </header>
-        
         <section id="controls">
             <div class="search-container">
                 <input type="number" id="searchBox" placeholder="Buscar cartón por número">
-             
                 <button id="searchButton">Buscar Cartón</button>
+            </div>
+            <div class="paint-container">
+                <button id="pintarButton">Pintar</button>
             </div>
         </section>
         <section id="bingo">
-            <div id="bingoBoardsContainer"></div>
+            <div id="bingoBoardsContainer">
+                <canvas id="drawingCanvas"></canvas>
+            </div>
         </section>
     </div>
-    <script src="scripts.js"></script>
+    <script src="scripts-jugar.js"></script>
 </body>
 </html>

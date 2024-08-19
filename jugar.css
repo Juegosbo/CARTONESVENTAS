@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.title-image-container {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.title-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.container {
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#searchBox {
+    padding: 10px;
+    width: 70%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#searchButton, #pintarButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#bingo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#bingoBoardsContainer {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Tamaño máximo del contenedor del cartón */
+    height: auto;
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+#drawingCanvas {
+    width: 100%; /* Asegura que el lienzo cubra el contenedor */
+    height: auto;
+    border: 1px solid #000;
+    cursor: crosshair;
+    touch-action: none; /* Para asegurar que el dibujo funcione correctamente en móviles */
+}
+
+#bingoBoardsContainer img {
+    width: 100%; /* Ajusta el ancho al 100% del contenedor */
+    height: auto;  /* Mantiene la proporción de la imagen */
+    display: block;
+    margin: 0 auto; /* Centra la imagen dentro del contenedor */
+}
