@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bingoBoardsContainer = document.getElementById('bingoBoardsContainer');
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
-    const totalBoards = 2600;  // Número total de cartones disponibles
+    const totalBoards = 5000;  // Número total de cartones disponibles
 
     // Asegúrate de que los elementos del DOM existen antes de añadir los event listeners
     if (searchButton && searchBox && bingoBoardsContainer) {
