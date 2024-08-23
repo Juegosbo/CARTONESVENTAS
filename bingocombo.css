@@ -34,6 +34,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 #searchBox {
@@ -41,6 +42,7 @@ body {
     width: 70%;
     border: 1px solid #ddd;
     border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 #searchButton {
@@ -57,11 +59,18 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* Permite que los cartones se ajusten en filas si la pantalla es más pequeña */
-    gap: 20px; /* Espacio entre los cartones */
+    gap: 20px; /* Espacio entre los elementos */
+}
+
+.bingoComboItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px; /* Ajuste para pantallas pequeñas */
 }
 
 .bingoBoardImage {
-    max-width: 150px; /* Ajusta el tamaño de los cartones */
+    max-width: 100%;
     height: auto;
     margin-bottom: 10px;
 }
@@ -74,7 +83,6 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 10px;
 }
 
 .downloadButton:hover {
