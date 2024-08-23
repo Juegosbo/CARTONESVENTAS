@@ -23,13 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadBingoCombo(boardNumber) {
         bingoComboContainer.innerHTML = ''; // Limpiar cualquier contenido previo
 
-        const selectedBoards = new Set();
-        selectedBoards.add(boardNumber);
-
-        while (selectedBoards.size < 4) {
-            const randomBoard = Math.floor(Math.random() * totalBoards) + 1;
-            selectedBoards.add(randomBoard);
-        }
+        const selectedBoards = generateDeterministicBoards(boardNumber);
 
         selectedBoards.forEach(board => {
             // Crear un contenedor para cada cartón y su botón
@@ -44,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Crear el botón de descarga
             const downloadButton = document.createElement('button');
-            downloadButton.textContent = `Descargar Nº ${board}`;
+            downloadButton.textContent = `Descargar Cartón Nº ${board}`;
             downloadButton.classList.add('downloadButton');
             downloadButton.addEventListener('click', () => downloadImage(img.src, `bingo_carton_${board}.png`));
 
@@ -55,6 +49,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Agregar el contenedor al contenedor principal
             bingoComboContainer.appendChild(comboItem);
         });
+    }
+
+    function generateDeterministicBoards(boardNumber) {
+        const selectedBoards = new Set();
+        selectedBoards.add(boardNumber);
+
+        // Generar números determinísticos basados en el número del cartón
+        while (selectedBoards.size < 4) {
+            const randomBoard = (boardNumber * (selectedBoards.size + 7) * 13) % totalBoards + 1;
+            selectedBoards.add(randomBoard);
+        }
+
+        return Array.from(selectedBoards);
     }
 
     function downloadImage(url, filename) {
