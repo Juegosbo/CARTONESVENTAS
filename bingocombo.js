@@ -56,8 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const startBoard = (comboNumber - 1) * 4 + 1;
         const selectedBoards = new Set();
 
+        // Generar cartones saltados para el combo
         for (let i = 0; i < 4; i++) {
-            selectedBoards.add(startBoard + i);
+            const boardNumber = (startBoard + i * (comboNumber + 3)) % totalBoards;
+            selectedBoards.add(boardNumber === 0 ? totalBoards : boardNumber);
         }
 
         return Array.from(selectedBoards);
