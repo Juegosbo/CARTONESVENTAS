@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalCombos = 1250;  // Número total de combos disponibles
     const totalBoards = 5000;  // Número total de cartones disponibles
 
+    // Pre-generar una lista de cartones mezclados de manera determinística
+    const preGeneratedBoards = shuffleArray(generateBoardSequence(totalBoards));
+
     // Asegúrate de que los elementos del DOM existen antes de añadir los event listeners
     if (searchButton && searchBox && bingoComboContainer) {
         searchButton.addEventListener('click', () => {
@@ -24,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadBingoCombo(comboNumber) {
         bingoComboContainer.innerHTML = ''; // Limpiar cualquier contenido previo
 
-        const selectedBoards = generateDeterministicBoards(comboNumber);
+        const startIndex = (comboNumber - 1) * 4;
+        const selectedBoards = preGeneratedBoards.slice(startIndex, startIndex + 4);
 
         selectedBoards.forEach(board => {
             // Crear un contenedor para cada cartón y su botón
@@ -52,17 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function generateDeterministicBoards(comboNumber) {
-        const startBoard = (comboNumber - 1) * 4 + 1;
-        const selectedBoards = new Set();
-
-        // Generar cartones saltados para el combo
-        for (let i = 0; i < 4; i++) {
-            const boardNumber = (startBoard + i * (comboNumber + 3)) % totalBoards;
-            selectedBoards.add(boardNumber === 0 ? totalBoards : boardNumber);
+    function generateBoardSequence(totalBoards) {
+        const boards = [];
+        for (let i = 1; i <= totalBoards; i++) {
+            boards.push(i);
         }
+        return boards;
+    }
 
-        return Array.from(selectedBoards);
+    function shuffleArray(array) {
+        let seed = 1; // Deterministic seed
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(random(seed) * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+            seed++;
+        }
+        return array;
+    }
+
+    function random(seed) {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
     }
 
     function downloadImage(url, filename) {
