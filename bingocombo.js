@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bingoComboContainer = document.getElementById('bingoComboContainer');
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
+    const totalCombos = 1250;  // Número total de combos disponibles
     const totalBoards = 5000;  // Número total de cartones disponibles
 
     // Asegúrate de que los elementos del DOM existen antes de añadir los event listeners
@@ -9,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         searchButton.addEventListener('click', () => {
             const query = parseInt(searchBox.value.trim());
 
-            if (isNaN(query) || query < 1 || query > totalBoards) {
-                alert('Por favor, ingrese un número de cartón válido.');
+            if (isNaN(query) || query < 1 || query > totalCombos) {
+                alert('Por favor, ingrese un número de combo válido.');
                 return;
             }
 
@@ -20,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('No se encontraron elementos del DOM necesarios');
     }
 
-    function loadBingoCombo(boardNumber) {
+    function loadBingoCombo(comboNumber) {
         bingoComboContainer.innerHTML = ''; // Limpiar cualquier contenido previo
 
-        const selectedBoards = generateDeterministicBoards(boardNumber);
+        const selectedBoards = generateDeterministicBoards(comboNumber);
 
         selectedBoards.forEach(board => {
             // Crear un contenedor para cada cartón y su botón
@@ -51,14 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function generateDeterministicBoards(boardNumber) {
+    function generateDeterministicBoards(comboNumber) {
+        const startBoard = (comboNumber - 1) * 4 + 1;
         const selectedBoards = new Set();
-        selectedBoards.add(boardNumber);
 
-        // Generar números determinísticos basados en el número del cartón
-        while (selectedBoards.size < 4) {
-            const randomBoard = (boardNumber * (selectedBoards.size + 7) * 13) % totalBoards + 1;
-            selectedBoards.add(randomBoard);
+        for (let i = 0; i < 4; i++) {
+            selectedBoards.add(startBoard + i);
         }
 
         return Array.from(selectedBoards);
