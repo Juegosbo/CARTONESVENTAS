@@ -32,18 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         selectedBoards.forEach(board => {
+            // Crear un contenedor para cada cartón y su botón
+            const comboItem = document.createElement('div');
+            comboItem.classList.add('bingoComboItem');
+
+            // Crear la imagen del cartón
             const img = document.createElement('img');
             img.src = `2600 CARTONES DESCARGADOS/bingo_carton_${board}.png`; // Ruta de la imagen
             img.alt = `Cartón Nº ${board}`;
             img.classList.add('bingoBoardImage');
 
+            // Crear el botón de descarga
             const downloadButton = document.createElement('button');
             downloadButton.textContent = `Descargar Cartón Nº ${board}`;
             downloadButton.classList.add('downloadButton');
             downloadButton.addEventListener('click', () => downloadImage(img.src, `bingo_carton_${board}.png`));
 
-            bingoComboContainer.appendChild(img);
-            bingoComboContainer.appendChild(downloadButton);
+            // Agregar la imagen y el botón al contenedor
+            comboItem.appendChild(img);
+            comboItem.appendChild(downloadButton);
+
+            // Agregar el contenedor al contenedor principal
+            bingoComboContainer.appendChild(comboItem);
         });
     }
 
