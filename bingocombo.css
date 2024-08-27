@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #fcff42;
+    background: url('fondoviejo.png') no-repeat center center fixed;
     margin: 0;
     padding: 0;
     display: flex;
