@@ -85,8 +85,8 @@ body {
     cursor: pointer;
     font-weight: bold; /* Negrilla */
     text-transform: uppercase; /* Mayúsculas */
-    font-size: 16px; /* Tamaño de fuente más grande */
-    letter-spacing: 1px; /* Espaciado entre letras para hacerla más llamativa */
+    font-size: 15px; /* Tamaño de fuente más grande */
+    letter-spacing: -2px; /* Espaciado entre letras para hacerla más llamativa */
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
