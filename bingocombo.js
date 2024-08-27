@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
     const exportButton = document.getElementById('exportButton'); // Botón para exportar a Excel
-    const totalCombos = 3000;  // Número total de combos disponibles
-    const totalBoards = 12000;  // Número total de cartones disponibles
+    const totalCombos = 2000;  // Número total de combos disponibles
+    const totalBoards = 8000;  // Número total de cartones disponibles
 
     // Pre-generar una lista de cartones mezclados de manera determinística
     const preGeneratedBoards = shuffleArray(generateBoardSequence(totalBoards));
