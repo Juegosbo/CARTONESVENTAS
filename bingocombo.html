@@ -6,6 +6,7 @@
     <title>CARTONES BINGO COMBO DESCARGA</title>
     <link rel="stylesheet" href="bingocombo.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script> <!-- Librería XLSX -->
 </head>
 <body>
     <div class="container">
@@ -20,6 +21,9 @@
             <div class="search-container">
                 <input type="number" id="searchBox" placeholder="Buscar cartón por número">
                 <button id="searchButton">Buscar Combo</button>
+            </div>
+            <div class="export-container">
+                <button id="exportButton">Exportar Combos a Excel</button>
             </div>
         </section>
         <section id="bingoComboContainer"></section>
