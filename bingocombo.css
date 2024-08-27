@@ -90,7 +90,7 @@ body {
     font-weight: bold; /* Negrilla */
     text-transform: uppercase; /* Mayúsculas */
     font-size: 18px; /* Tamaño de fuente más grande */
-    letter-spacing: 0.5px; /* Aumentar espaciado entre letras */
+    letter-spacing: -2px; /* Aumentar espaciado entre letras */
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
