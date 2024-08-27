@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const bingoComboContainer = document.getElementById('bingoComboContainer');
     const searchBox = document.getElementById('searchBox');
     const searchButton = document.getElementById('searchButton');
-    const totalCombos = 1250;  // Número total de combos disponibles
-    const totalBoards = 5000;  // Número total de cartones disponibles
+    const exportButton = document.getElementById('exportButton'); // Botón para exportar a Excel
+    const totalCombos = 3000;  // Número total de combos disponibles
+    const totalBoards = 12000;  // Número total de cartones disponibles
 
     // Pre-generar una lista de cartones mezclados de manera determinística
     const preGeneratedBoards = shuffleArray(generateBoardSequence(totalBoards));
@@ -22,6 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
         console.error('No se encontraron elementos del DOM necesarios');
+    }
+
+    // Event listener para el botón de exportación a Excel
+    if (exportButton) {
+        exportButton.addEventListener('click', () => {
+            exportCombosToExcel();
+        });
     }
 
     function loadBingoCombo(comboNumber) {
@@ -86,5 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    function exportCombosToExcel() {
+        const workbook = XLSX.utils.book_new();
+        const combos = [];
+
+        for (let i = 1; i <= totalCombos; i++) {
+            const startIndex = (i - 1) * 4;
+            const selectedBoards = preGeneratedBoards.slice(startIndex, startIndex + 4);
+            combos.push([`Combo ${i}`, ...selectedBoards]);
+        }
+
+        const worksheet = XLSX.utils.aoa_to_sheet([['Combo', 'Cartón 1', 'Cartón 2', 'Cartón 3', 'Cartón 4'], ...combos]);
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Combos');
+
+        XLSX.writeFile(workbook, 'BingoCombos.xlsx');
     }
 });
