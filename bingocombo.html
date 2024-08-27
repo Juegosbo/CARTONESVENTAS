@@ -3,30 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>CARTONES BINGO DESCARGA</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>CARTONES BINGO COMBO DESCARGA</title>
+    <link rel="stylesheet" href="bingocombo.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script> <!-- Librería XLSX -->
 </head>
 <body>
     <div class="container">
         <header>
             <div class="title-image-container">
                 <img src="titulo.png" alt="Título del Juego de Bingo" class="title-image">
-                <p>INGRESAR SU NUMERO DE CARTON PARA DESCARGAR</p>
+                <p>INGRESAR SU NÚMERO DE COMBO PARA DESCARGAR SUS CARTONES</p>
             </div>
         </header>
         
         <section id="controls">
             <div class="search-container">
                 <input type="number" id="searchBox" placeholder="Buscar cartón por número">
-             
-                <button id="searchButton">Buscar Cartón</button>
+                <button id="searchButton">Buscar Combo</button>
+            </div>
+            <div class="export-container">
+            <button id="exportButton">Exportar Combos a Excel</button>
             </div>
         </section>
-        <section id="bingo">
-            <div id="bingoBoardsContainer"></div>
-        </section>
+        <section id="bingoComboContainer"></section>
     </div>
-    <script src="scripts.js"></script>
+    <script src="bingocombo.js"></script>
 </body>
 </html>

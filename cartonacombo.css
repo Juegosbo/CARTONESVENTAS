@@ -1,0 +1,91 @@
+/* Estilos básicos */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e0f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 10px;
+}
+
+/* Estilos del contenedor principal */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Estilos del campo de entrada */
+input[type="number"] {
+    padding: 15px;
+    width: 90%;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border: 1px solid #b2ebf2;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+    border-color: #00acc1;
+}
+
+/* Estilos del botón */
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #00796b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 90%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #004d40;
+    transform: translateY(-3px);
+}
+
+button:active {
+    background-color: #004d40;
+    transform: translateY(1px);
+}
+
+/* Estilos del resultado */
+#result {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #00796b;
+}
+
+/* Estilos responsivos para dispositivos móviles */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    input[type="number"] {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+
+    #result {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url('fondoviejo.png') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-y: auto; /* Permitir el desplazamiento vertical */
+    overflow-x: hidden; /* Evitar desplazamiento horizontal */
+}
+
+.title-image-container {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.title-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.container {
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#searchBox {
+    padding: 15px; /* Aumentar tamaño del padding para hacer más grande el input */
+    width: 80%; /* Ajustar el ancho del input */
+    border: 2px solid #ddd; /* Hacer más grueso el borde */
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 18px; /* Aumentar tamaño de la fuente */
+}
+
+#searchButton {
+    padding: 15px 25px; /* Aumentar padding del botón */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px; /* Aumentar tamaño de la fuente */
+    font-weight: bold; /* Hacer la fuente más gruesa */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#bingoComboContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permite que los cartones se ajusten en filas si la pantalla es más pequeña */
+    gap: 20px; /* Espacio entre los elementos */
+}
+
+.bingoComboItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 110px; /* Ajuste para pantallas pequeñas */
+}
+
+.bingoBoardImage {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.downloadButton {
+    padding: 10px 15px; /* Aumentar tamaño del padding */
+    background-color: #28a745;
+    color: black; /* Color de la letra negro */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold; /* Negrilla */
+    text-transform: uppercase; /* Mayúsculas */
+    font-size: 18px; /* Tamaño de fuente más grande */
+    letter-spacing: -2px; /* Aumentar espaciado entre letras */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.downloadButton:hover {
+    background-color: #218838; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al hacer hover */
+    color: black; /* Asegura que el texto siga siendo negro al hacer hover */
+}
+
+/* Estilos específicos para dispositivos móviles */
+@media (max-width: 600px) {
+    .title-image-container {
+        margin: 30px 0;
+    }
+
+    .title-image {
+        max-width: 90%; /* Aumentar el tamaño del título en móviles */
+    }
+
+    #searchBox {
+        width: 100%; /* El input ocupa todo el ancho en móviles */
+        font-size: 20px; /* Aumentar tamaño de la fuente en móviles */
+    }
+
+    #searchButton {
+        width: 100%; /* El botón ocupa todo el ancho en móviles */
+        margin-left: 0; /* Eliminar el margen izquierdo en móviles */
+        margin-top: 10px;
+    }
+
+    .bingoComboItem {
+        width: 100%; /* Los combos ocupan todo el ancho en móviles */
+        margin-bottom: 20px;
+    }
+}
