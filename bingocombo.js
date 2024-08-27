@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Crear el botón de descarga
             const downloadButton = document.createElement('button');
-            downloadButton.textContent = `Descargar Cartón Nº ${board}`;
+            downloadButton.textContent = `Descargar Nº ${board}`;
             downloadButton.classList.add('downloadButton');
             downloadButton.addEventListener('click', () => downloadImage(img.src, `bingo_carton_${board}.png`));
 
