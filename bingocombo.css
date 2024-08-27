@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     background: url('fondoviejo.png') no-repeat center center fixed;
-     background-size: cover;
+    background-size: cover;
     margin: 0;
     padding: 0;
     display: flex;
@@ -39,21 +39,25 @@ body {
 }
 
 #searchBox {
-    padding: 10px;
-    width: 70%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    padding: 15px; /* Aumentar tamaño del padding para hacer más grande el input */
+    width: 80%; /* Ajustar el ancho del input */
+    border: 2px solid #ddd; /* Hacer más grueso el borde */
+    border-radius: 10px;
     margin-bottom: 10px;
+    font-size: 18px; /* Aumentar tamaño de la fuente */
 }
 
 #searchButton {
-    padding: 10px 20px;
+    padding: 15px 25px; /* Aumentar padding del botón */
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-left: 10px;
     cursor: pointer;
+    font-size: 18px; /* Aumentar tamaño de la fuente */
+    font-weight: bold; /* Hacer la fuente más gruesa */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #bingoComboContainer {
@@ -67,7 +71,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100px; /* Ajuste para pantallas pequeñas */
+    width: 110px; /* Ajuste para pantallas pequeñas */
 }
 
 .bingoBoardImage {
@@ -77,23 +81,48 @@ body {
 }
 
 .downloadButton {
-    padding: 5px 10px;
+    padding: 10px 15px; /* Aumentar tamaño del padding */
     background-color: #28a745;
     color: black; /* Color de la letra negro */
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold; /* Negrilla */
     text-transform: uppercase; /* Mayúsculas */
-    font-size: 15px; /* Tamaño de fuente más grande */
-    letter-spacing: -2px; /* Espaciado entre letras para hacerla más llamativa */
+    font-size: 18px; /* Tamaño de fuente más grande */
+    letter-spacing: 0.5px; /* Aumentar espaciado entre letras */
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .downloadButton:hover {
     background-color: #218838; /* Color más oscuro al pasar el mouse */
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño al hacer hover */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al hacer hover */
     color: black; /* Asegura que el texto siga siendo negro al hacer hover */
 }
 
+/* Estilos específicos para dispositivos móviles */
+@media (max-width: 600px) {
+    .title-image-container {
+        margin: 30px 0;
+    }
 
+    .title-image {
+        max-width: 90%; /* Aumentar el tamaño del título en móviles */
+    }
+
+    #searchBox {
+        width: 100%; /* El input ocupa todo el ancho en móviles */
+        font-size: 20px; /* Aumentar tamaño de la fuente en móviles */
+    }
+
+    #searchButton {
+        width: 100%; /* El botón ocupa todo el ancho en móviles */
+        margin-left: 0; /* Eliminar el margen izquierdo en móviles */
+        margin-top: 10px;
+    }
+
+    .bingoComboItem {
+        width: 100%; /* Los combos ocupan todo el ancho en móviles */
+        margin-bottom: 20px;
+    }
+}
